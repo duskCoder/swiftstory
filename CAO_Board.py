@@ -46,6 +46,9 @@ class CAO_Board():
     def play_card(self, player, card):
         self.played_cards.append((card, player))
 
+    def shuffle_played_cards(self):
+        random.shuffle(self.played_cards)
+
     def recycle_played_cards(self):
         self.white_recycled += [i[0] for i in self.played_cards]
 

@@ -85,6 +85,8 @@ class CAO_Game():
         if self.judge is not player:
             return ('ERR', 'You\'re not the judge, you fool!')
 
+        self.board.shuffle_played_cards()
+
         # we prevent the others to play
         self.state = self.WAITING_DESIGNATION
 
