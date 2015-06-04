@@ -97,7 +97,7 @@ class CAO_Game():
         # we prevent the others to play
         self.state = self.WAITING_DESIGNATION
 
-        return cao_success(None)
+        return self.try_view_played_cards(player)
 
 
     def try_designate_card(self, player, card_id):
