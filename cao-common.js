@@ -74,7 +74,6 @@ var CAO = function() {
                 /* XXX intentional fallback */
             case 'view_player_cards':
                 if (response['status'] == 0) {
-                    $('#white_cards').show();
                     for (var i in response['result']) {
                         var idx = response['result'][i][0];
                         var desc = response['result'][i][1];
