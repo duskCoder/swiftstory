@@ -1,0 +1,28 @@
+body {
+    background-color: #222222;
+    color: #dddddd;
+}
+
+td {
+    border: 1px white solid;
+}
+
+#black_card {
+    display: none;
+}
+
+#white_cards {
+    display: none;
+}
+
+#btn_join {
+    display: none;
+}
+
+#btn_collect {
+    display: none;
+}
+
+#btn_pick_black {
+    display: none;
+}
