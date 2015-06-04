@@ -50,7 +50,7 @@ class CAO_Game():
 
         for p in self.players:
             if p is not player:
-                p.send_notification('somebody has joined the game')
+                p.send_notification({'op': 'player_joined_game'})
 
         return self.try_view_player_cards(player)
 
@@ -67,7 +67,7 @@ class CAO_Game():
 
         for p in self.players:
             if p is not player:
-                p.send_notification('a judge has been designed')
+                p.send_notification({'op': 'judge_designed'})
 
         return self.try_view_black_card(player)
 
@@ -90,7 +90,7 @@ class CAO_Game():
 
         self.board.play_card(player, card)
 
-        self.judge.send_notification('somebody played a card')
+        self.judge.send_notification({'op': 'card_played'})
 
         return cao_success({'card_id': card_id})
 
@@ -109,7 +109,7 @@ class CAO_Game():
 
         for p in self.players:
             if p is not player:
-                p.send_notification('somebody collected the cards')
+                p.send_notification({'op': 'cards_collected'})
 
         return self.try_view_played_cards(player)
 
@@ -148,7 +148,7 @@ class CAO_Game():
 
         for p in self.players:
             if p is not player:
-                p.send_notification('we need a new judge')
+                p.send_notification({'op': 'judge_needed'})
 
         self.state = self.WAITING_NEW_JUDGE
 
