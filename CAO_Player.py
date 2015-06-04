@@ -1,6 +1,8 @@
 class CAO_Player():
-    def __init__(self, client, cards):
-        self.cards = cards
+    def __init__(self, client):
+        self.cards = {}
+        self.next_idx = 0
+
         self.client = client
 
         self.score = 0
@@ -21,3 +23,7 @@ class CAO_Player():
 
     def inc_score(self):
         self.score += 1
+
+    def receive_card(self, card):
+        self.cards[self.next_idx] = card
+        self.next_idx += 1

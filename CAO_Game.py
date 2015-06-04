@@ -38,7 +38,11 @@ class CAO_Game():
         except IndexError:
             return cao_error('no enough white cards for player')
 
-        player = CAO_Player(client, cards)
+        player = CAO_Player(client)
+
+        for card in cards:
+            player.receive_card(card)
+
         client.set_player(player)
         client.set_game(self)
 
@@ -122,7 +126,7 @@ class CAO_Game():
             # reset the state of the players
             for p in self.players:
                 if p.get_has_played:
-                    p.cards.append(self.board.pick_white_card())
+                    p.receive_card(self.board.pick_white_card())
                     p.set_has_played(False)
 
         self.board.recycle_black_card()
@@ -136,7 +140,7 @@ class CAO_Game():
         cards = []
 
         for card in player.cards:
-            cards.append(self.white_desc[card])
+            cards.append((card, self.white_desc[player.cards[card]]))
 
         return cao_success(cards)
 
