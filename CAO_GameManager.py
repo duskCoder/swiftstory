@@ -13,6 +13,6 @@ class CAO_GameManager():
 
         if game is None:
             print('Starting new game')
-            game = self.games[game_name] = CAO_Game(self.black_cards, self.white_cards)
+            game = self.games[game_name] = CAO_Game(self.white_cards, self.black_cards)
 
         return game
