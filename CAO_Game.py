@@ -149,3 +149,9 @@ class CAO_Game():
             cards.append(self.white_desc[card])
 
         return cao_success(cards)
+
+    def try_view_black_card(self, player):
+        card = self.board.current_black_card
+
+        if card is not None:
+            return cao_success(self.black_desc[card])

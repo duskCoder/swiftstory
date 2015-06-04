@@ -47,3 +47,8 @@ class CAO_Client():
         if self.game is None:
             return cao_error('You have to join a game first')
         return self.game.try_view_played_cards(self.player)
+
+    def view_black_card(self):
+        if self.game is None:
+            return cao_error('You have to join a game first')
+        return self.game.try_view_black_card(self.player)
