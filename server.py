@@ -59,7 +59,7 @@ def message_received_handler(client, server, message):
     server.send_message(client, res)
 
 def main():
-    server = WebsocketServer(1236)
+    server = WebsocketServer(1236, '0.0.0.0')
     server.set_fn_new_client(new_client_handler)
     server.set_fn_client_left(client_left_handler)
     server.set_fn_message_received(message_received_handler)
