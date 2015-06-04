@@ -9,7 +9,6 @@ $(document).ready(function() {
         $('#white_cards').show();
     };
 
-
     cao.on_show_white_card = function(idx, desc) {
         identifier = 'white_card_' + idx;
         content = '<li id="' + identifier + '">' + desc + '</li>';
@@ -46,7 +45,7 @@ $(document).ready(function() {
         $('#' + identifier).remove();
     };
 
-    cao.on_designate_card_ok = function(idx) {
+    cao.on_designate_card_ok = function() {
         $('#played_cards').empty();
         $('#played_cards').hide();
         $('#black_card').hide();
@@ -54,10 +53,17 @@ $(document).ready(function() {
         $('#btn_pick_black').show();
     };
 
-
     cao.on_collect_cards_ok = function() {
         $('#btn_collect').hide();
         $('#played_cards').show();
+    };
+
+    cao.on_judge_designed = function() {
+        $('#btn_pick_black').hide();
+    };
+
+    cao.on_judge_needed = function() {
+        $('#btn_pick_black').show();
     };
 
     cao.run();

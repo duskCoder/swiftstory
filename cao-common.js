@@ -12,6 +12,12 @@ var CAO = function() {
     this.on_show_played_card = function(idx, desc) { /* to override */ };
     this.on_designate_card_ok = function(idx) { /* to override */ };
 
+    this.on_judge_needed = function() { /* to override */ };
+    this.on_judge_designed = function() { /* to override */ };
+    this.on_player_joined_game = function() { /* to override */ };
+    this.on_card_played = function() { /* to override */ };
+    this.on_cards_collected = function() { /* to override */ };
+
     var request_queue = [];
 
     var self = this;
@@ -21,16 +27,17 @@ var CAO = function() {
     var white_cards = {};
     var black_card;
 
-    var handle_response_ok = {};
+    var map_handle_response_ok = {};
+    var map_handle_notif = {};
 
-    /* handle_response_ok {{{ */
+    /* map_handle_response_ok {{{ */
 
-    handle_response_ok['join_game'] = function(result) {
+    map_handle_response_ok['join_game'] = function(result) {
         self.on_join_game_ok();
-        handle_response_ok['view_player_cards'](result);
+        map_handle_response_ok['view_player_cards'](result);
     };
 
-    handle_response_ok['view_player_cards'] = function(result) {
+    map_handle_response_ok['view_player_cards'] = function(result) {
         for (var i in result) {
             var idx = result[i][0];
             var desc = result[i][1];
@@ -41,17 +48,17 @@ var CAO = function() {
         }
     };
 
-    handle_response_ok['pick_black_card'] = function(result) {
+    map_handle_response_ok['pick_black_card'] = function(result) {
         self.on_pick_black_card_ok();
-        handle_response_ok['view_black_card'](result);
+        map_handle_response_ok['view_black_card'](result);
     };
 
-    handle_response_ok['view_black_card'] = function(result) {
+    map_handle_response_ok['view_black_card'] = function(result) {
         black_card = result;
         self.on_show_black_card(black_card);
     };
 
-    handle_response_ok['play_white_card'] = function(result) {
+    map_handle_response_ok['play_white_card'] = function(result) {
         idx = result['card_id'];
 
         self.on_play_white_card_ok(idx);
@@ -59,12 +66,12 @@ var CAO = function() {
         delete white_cards[idx];
     };
 
-    handle_response_ok['collect_cards'] = function(result) {
+    map_handle_response_ok['collect_cards'] = function(result) {
         self.on_collect_cards_ok();
-        handle_response_ok['view_played_cards'](result);
+        map_handle_response_ok['view_played_cards'](result);
     };
 
-    handle_response_ok['view_played_cards'] = function(result) {
+    map_handle_response_ok['view_played_cards'] = function(result) {
         for (var i in result) {
             var desc = result[i];
 
@@ -73,11 +80,42 @@ var CAO = function() {
         }
     };
 
-    handle_response_ok['designate_card'] = function(result) {
-        /* TODO check what is `idx' */
-        self.on_designate_card_ok(idx);
+    map_handle_response_ok['designate_card'] = function(result) {
+        self.on_designate_card_ok();
 
         played_cards = [];
+    };
+
+    /* }}} */
+    /* handle_notif {{{ */
+
+    map_handle_notif['judge_designed'] = function(result) {
+        self.on_judge_designed();
+    };
+
+    map_handle_notif['received_card'] = function(result) {
+        var idx = result['card']['idx'];
+        var desc = result['card']['desc'];
+
+        white_cards[idx] = desc;
+
+        self.on_show_white_card(idx, desc);
+    };
+
+    map_handle_notif['judge_needed'] = function(result) {
+        self.on_judge_needed();
+    };
+
+    map_handle_notif['player_joined_game'] = function(result) {
+        self.on_player_joined_game();
+    };
+
+    map_handle_notif['card_played'] = function(result) {
+        self.on_card_played();
+    };
+
+    map_handle_notif['cards_collected'] = function(result) {
+        self.on_cards_collected();
     };
 
     /* }}} */
@@ -98,7 +136,7 @@ var CAO = function() {
             var message = JSON.parse(evt.data);
 
             if (message['type'] == 'notification') {
-                handle_notification(message['content']);
+                handle_notif(message['content']);
             } else {
                 handle_response(message['content']);
             }
@@ -111,9 +149,13 @@ var CAO = function() {
 
     };
 
-    var handle_notification = function(msg) {
-        console.log('notification:');
-        console.log(msg);
+    var handle_notif = function(notif) {
+        console.log(notif);
+        if (map_handle_notif[notif['op']]) {
+            map_handle_notif[notif['op']](notif['content']);
+        } else {
+            console.log('unhandled notif ' + notif);
+        }
     };
 
     var handle_response = function(response) {
@@ -124,8 +166,8 @@ var CAO = function() {
             return;
         }
 
-        if (handle_response_ok[rq]) {
-            handle_response_ok[rq](response['result'])
+        if (map_handle_response_ok[rq]) {
+            map_handle_response_ok[rq](response['result'])
         } else {
             console.log(evt);
         }
