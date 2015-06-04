@@ -31,20 +31,22 @@ def message_received_handler(client, server, message):
                 res = client['cao_client'].join_game(game_name)
         elif op == 'view_player_cards':
             res = client['cao_client'].view_player_cards()
+        elif op == 'view_black_card':
+            res = client['cao_client'].view_black_card()
         elif op == 'view_played_cards':
             res = client['cao_client'].view_played_cards()
         elif op == 'pick_black_card':
             res = client['cao_client'].pick_black_card()
         elif op == 'designate_card':
             try:
-                card_id = json_msg['card_id']
+                card_id = int(json_msg['card_id'])
             except KeyError:
                 res = cao_error('field `card_id\' is required')
             else:
                 res = client['cao_client'].designate_card(card_id)
         elif op == 'play_white_card':
             try:
-                card_id = json_msg['card_id']
+                card_id = int(json_msg['card_id'])
             except KeyError:
                 res = cao_error('field `card_id\' is required')
             else:
