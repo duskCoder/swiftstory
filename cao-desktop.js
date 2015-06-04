@@ -1,0 +1,39 @@
+$(document).ready(function() {
+    cao.on_socket_open = function() {
+        $('#btn_join').show();
+    };
+
+    cao.on_join_game_ok = function() {
+        $('#btn_join').hide();
+        $('#btn_pick_black').show();
+    };
+
+    cao.on_show_white_card = function(idx, desc) {
+        /* to change */
+        element = $('.card_desc').eq(idx);
+        element.html(desc);
+        element.dblclick(this.gen_callback_white_card(i));
+    };
+
+    cao.on_pick_black_card_ok = function() {
+        $('#btn_collect').show();
+        $('#btn_pick_black').hide();
+    };
+
+    cao.on_show_black_card = function(desc) {
+        $('#black_card').show();
+        $('#black_card').html(desc);
+    };
+
+    cao.on_played_white_card_ok = function(idx) {
+        element = $('.card_desc').eq(idx);
+        element.empty();
+        element.dblclick(null);
+    };
+
+    cao.on_collect_cards_ok = function() {
+        $('#btn_collect').hide();
+    };
+
+    cao.run();
+});

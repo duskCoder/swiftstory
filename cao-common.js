@@ -1,27 +1,51 @@
-$(document).ready(function() {
-    request_queue = []
-    var map_white_idx_row = {};
+var CAO = function() {
+    this.on_socket_open = function() { /* to override */ };
+    this.on_socket_close = function() { /* to override */ };
+    this.on_socket_error = function(evt) { /* to override */};
 
-    var ws = new WebSocket('ws://' + document.location.hostname + ':1236');
+    this.on_join_game_ok = function() { /* to override */ };
+    this.on_show_white_card = function(idx, desc) { /* to override */ };
+    this.on_pick_black_card_ok = function() { /* to override */ };
+    this.on_show_black_card = function(desc) { /* to override */ };
+    this.on_play_white_card_ok = function(idx) { /* to override */ };
+    this.on_collect_cards_ok = function() { /* to override */ };
+    this.on_show_played_card = function(idx, desc) { /* to override */ };
+
+    var request_queue = [];
 
     var self = this;
+    var ws;
 
-    ws.onopen = function() {
-        console.log('connection established');
-        $('#btn_join').show();
-    };
+    var white_cards = {};
+    var black_card;
 
-    ws.onclose = function() {
-    };
+    this.run = function() {
+        ws = new WebSocket('ws://' + document.location.hostname + ':1236');
 
-    ws.onmessage = function(evt) {
-        message = JSON.parse(evt.data);
+        ws.onopen = function() {
+            console.log('connection established');
+            self.on_socket_open();
+        };
 
-        if (message['type'] == 'notification') {
-            handle_notification(message['content']);
-        } else {
-            handle_response(message['content']);
-        }
+        ws.onclose = function() {
+            self.on_socket_close();
+        };
+
+        ws.onmessage = function(evt) {
+            message = JSON.parse(evt.data);
+
+            if (message['type'] == 'notification') {
+                handle_notification(message['content']);
+            } else {
+                handle_response(message['content']);
+            }
+        };
+
+        ws.onerror = function(evt) {
+            alert(evt);
+            this.on_socket_error(evt);
+        };
+
     };
 
     var handle_notification = function(msg) {
@@ -42,19 +66,20 @@ $(document).ready(function() {
                 if (response['status'] != 0) {
                     break;
                 }
-                $('#btn_join').hide();
-                $('#btn_pick_black').show();
                 console.log('just joined the game');
+                self.on_join_game_ok();
                 /* self.request_show_cards(); */
                 /* XXX intentional fallback */
             case 'view_player_cards':
                 if (response['status'] == 0) {
                     $('#white_cards').show();
                     for (i in response['result']) {
-                        element = $('.card_desc').eq(i);
-                        element.html(response['result'][i][1]);
-                        element.dblclick(gen_callback_white_card(i));
-                        map_white_idx_row[response['result'][i][0]] = i;
+                        idx = response['result'][i][0];
+                        desc = response['result'][i][1];
+
+                        white_cards[idx] = desc;
+
+                        self.on_show_white_card(idx, desc);
                     }
                 }
                 break;
@@ -62,36 +87,38 @@ $(document).ready(function() {
                 if (response['status'] != 0) {
                     break;
                 }
-                $('#btn_collect').show();
-                $('#btn_pick_black').hide();
+                self.on_pick_black_card_ok();
                 /* self.request_show_black_card(); */
                 /* XXX intentional fallback */
 
             case 'view_black_card':
                 if (response['status'] == 0) {
-                    $('#black_card').show();
-                    $('#black_card').html(response['result']);
+                    black_card = response['result'];
+                    self.on_show_black_card(black_card);
                 }
                 break;
             case 'play_white_card':
                 if (response['status'] == 0) {
-                    row = map_white_idx_row[response['result']['card_id']];
+                    idx = response['result']['card_id'];
 
-                    element = $('.card_desc').eq(row);
-                    element.empty();
-                    element.dblclick(null)
+                    self.on_played_white_card_ok(idx);
+
+                    delete white_cards[idx];
                 }
                 break;
             case 'collect_cards':
                 if (response['status'] != 0) {
                     break;
                 }
-                $('#btn_collect').hide();
+                self.on_collect_cards_ok();
                 /* XXX intentional fallback */
             case 'view_played_cards':
                 if (response['status'] == 0) {
                     for (i in response['result']) {
-                        console.log(response['result'][i]);
+                        desc = response['result'][i];
+
+                        console.log(desc);
+                        self.on_show_played_card(i, desc);
                     }
                 }
                 break;
@@ -100,11 +127,7 @@ $(document).ready(function() {
         }
     };
 
-    ws.onerror = function(evt) {
-        alert(evt);
-    };
-
-    var gen_callback_white_card = function(index) {
+    this.gen_callback_white_card = function(index) {
         return function() {
             request = {
                 'op': 'play_white_card',
@@ -168,4 +191,10 @@ $(document).ready(function() {
         request_queue.push('view_played_cards');
         ws.send(JSON.stringify(request));
     };
+};
+
+var cao;
+
+$(document).ready(function() {
+    cao = new CAO();
 });
