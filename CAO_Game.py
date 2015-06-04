@@ -146,9 +146,11 @@ class CAO_Game():
 
                     p.send_notification({
                         'op': 'received_card',
-                        'card': {
-                            'id': idx,
-                            'desc': card_desc,
+                        'content': {
+                            'card': {
+                                'id': idx,
+                                'desc': card_desc,
+                                },
                             },
                         })
                     p.set_has_played(False)
