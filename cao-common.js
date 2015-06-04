@@ -34,7 +34,7 @@ var CAO = function() {
         };
 
         ws.onmessage = function(evt) {
-            message = JSON.parse(evt.data);
+            var message = JSON.parse(evt.data);
 
             if (message['type'] == 'notification') {
                 handle_notification(message['content']);
@@ -56,7 +56,7 @@ var CAO = function() {
     };
 
     var handle_response = function(response) {
-        rq = request_queue.shift();
+        var rq = request_queue.shift();
 
         if (response['status'] != 0) {
             alert(response['info']);
@@ -75,9 +75,9 @@ var CAO = function() {
             case 'view_player_cards':
                 if (response['status'] == 0) {
                     $('#white_cards').show();
-                    for (i in response['result']) {
-                        idx = response['result'][i][0];
-                        desc = response['result'][i][1];
+                    for (var i in response['result']) {
+                        var idx = response['result'][i][0];
+                        var desc = response['result'][i][1];
 
                         white_cards[idx] = desc;
 
@@ -116,8 +116,8 @@ var CAO = function() {
                 /* XXX intentional fallback */
             case 'view_played_cards':
                 if (response['status'] == 0) {
-                    for (i in response['result']) {
-                        desc = response['result'][i];
+                    for (var i in response['result']) {
+                        var desc = response['result'][i];
 
                         played_cards.push(desc);
                         self.on_show_played_card(i, desc);
@@ -138,7 +138,7 @@ var CAO = function() {
 
     this.gen_callback_white_card = function(index) {
         return function() {
-            request = {
+            var request = {
                 'op': 'play_white_card',
                 'card_id': index,
             };
@@ -150,7 +150,7 @@ var CAO = function() {
 
     this.gen_callback_played_card = function(index) {
         return function() {
-            request = {
+            var request = {
                 'op': 'designate_card',
                 'card_id': index,
             };
@@ -161,9 +161,9 @@ var CAO = function() {
     };
 
     $('#btn_join').click(function() {
-        game_name = prompt('Name of the game');
+        var game_name = prompt('Name of the game');
 
-        request = {
+        var request = {
             'op': 'join_game',
             'game_name': game_name,
         };
@@ -172,7 +172,7 @@ var CAO = function() {
     });
 
     $('#btn_pick_black').click(function() {
-        request = {
+        var request = {
             'op': 'pick_black_card',
         };
         request_queue.push('pick_black_card');
@@ -180,7 +180,7 @@ var CAO = function() {
     });
 
     $('#btn_collect').click(function() {
-        request = {
+        var request = {
             'op': 'collect_cards',
         };
         request_queue.push('collect_cards');
@@ -188,7 +188,7 @@ var CAO = function() {
     });
 
     this.request_show_cards = function() {
-        request = {
+        var request = {
             'op': 'view_player_cards',
         };
 
@@ -197,7 +197,7 @@ var CAO = function() {
         ws.send(JSON.stringify(request));
     };
     this.request_show_black_card = function() {
-        request = {
+        var request = {
             'op': 'view_black_card',
         };
 
@@ -205,7 +205,7 @@ var CAO = function() {
         ws.send(JSON.stringify(request));
     };
     this.request_show_played_cards = function() {
-        request = {
+        var request = {
             'op': 'view_played_cards',
         };
 
