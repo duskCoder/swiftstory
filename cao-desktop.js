@@ -40,7 +40,7 @@ $(document).ready(function() {
     };
 
 
-    cao.on_played_white_card_ok = function(idx) {
+    cao.on_play_white_card_ok = function(idx) {
         identifier = 'white_card_' + idx;
         $('#' + identifier).remove();
     };

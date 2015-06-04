@@ -94,7 +94,7 @@ var CAO = function() {
     };
 
     map_handle_notif['received_card'] = function(result) {
-        var idx = result['card']['idx'];
+        var idx = result['card']['id'];
         var desc = result['card']['desc'];
 
         white_cards[idx] = desc;
