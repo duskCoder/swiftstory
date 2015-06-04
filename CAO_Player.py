@@ -28,6 +28,7 @@ class CAO_Player():
     def receive_card(self, card):
         self.cards[self.next_idx] = card
         self.next_idx += 1
+        return self.next_idx - 1
 
     def send_notification(self, obj):
         if self.client is None:

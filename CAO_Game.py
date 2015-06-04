@@ -140,7 +140,17 @@ class CAO_Game():
             # reset the state of the players
             for p in self.players:
                 if p.get_has_played:
-                    p.receive_card(self.board.pick_white_card())
+                    idx = p.receive_card(self.board.pick_white_card())
+                    card_idx = p.cards[idx]
+                    card_desc = self.white_desc[card_idx]
+
+                    p.send_notification({
+                        'op': 'received_card',
+                        'card': {
+                            'id': idx,
+                            'desc': card_desc,
+                            },
+                        })
                     p.set_has_played(False)
 
         self.board.recycle_black_card()
