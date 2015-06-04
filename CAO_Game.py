@@ -44,7 +44,7 @@ class CAO_Game():
 
         self.players.append(player)
 
-        return cao_success(None)
+        return self.try_view_player_cards(player)
 
 
     def try_become_judge(self, player):
@@ -57,7 +57,7 @@ class CAO_Game():
 
         self.state = self.WAITING_COLLECTION
 
-        return cao_success(None)
+        return self.try_view_black_card(player)
 
 
     def try_play_card(self, player, card_id):
@@ -78,7 +78,7 @@ class CAO_Game():
 
         self.board.play_card(player, card)
 
-        return cao_success(None)
+        return cao_success({'card_id': card_id})
 
 
     def try_collect_cards(self, player):
