@@ -45,7 +45,7 @@ var CAO = function() {
 
         ws.onerror = function(evt) {
             console.log(evt);
-            this.on_socket_error(evt);
+            self.on_socket_error(evt);
         };
 
     };
