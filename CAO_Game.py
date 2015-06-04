@@ -178,3 +178,5 @@ class CAO_Game():
 
         if card is not None:
             return cao_success(self.black_desc[card])
+
+        return cao_error('The black card has not been revealed yet')
