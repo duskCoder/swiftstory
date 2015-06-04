@@ -150,7 +150,6 @@ var CAO = function() {
     };
 
     var handle_notif = function(notif) {
-        console.log(notif);
         if (map_handle_notif[notif['op']]) {
             map_handle_notif[notif['op']](notif['content']);
         } else {
@@ -230,7 +229,6 @@ var CAO = function() {
         };
 
         request_queue.push('view_player_cards');
-        console.log(request);
         ws.send(JSON.stringify(request));
     };
     this.request_show_black_card = function() {
