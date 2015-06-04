@@ -61,3 +61,7 @@ class CAO_Client():
 
     def send_notification(self, message):
         self.socket.send_message(self.handler, message)
+
+    def disconnect(self):
+        if self.player is not None:
+            self.player.client = None

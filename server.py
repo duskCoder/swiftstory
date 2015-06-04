@@ -13,7 +13,7 @@ def new_client_handler(client, server):
     client['cao_client'] = CAO_Client.CAO_Client(server, client, game_manager)
 
 def client_left_handler(client, server):
-    pass
+    client['cao_client'].disconnect();
 
 def message_received_handler(client, server, message):
     try:
