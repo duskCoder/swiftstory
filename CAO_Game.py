@@ -48,6 +48,10 @@ class CAO_Game():
 
         self.players.append(player)
 
+        for p in self.players:
+            if p is not player:
+                p.send_notification('somebody has joined the game')
+
         return self.try_view_player_cards(player)
 
 
@@ -60,6 +64,10 @@ class CAO_Game():
         self.board.reveal_black_card()
 
         self.state = self.WAITING_COLLECTION
+
+        for p in self.players:
+            if p is not player:
+                p.send_notification('a judge has been designed')
 
         return self.try_view_black_card(player)
 
@@ -82,6 +90,8 @@ class CAO_Game():
 
         self.board.play_card(player, card)
 
+        self.judge.send_notification('somebody played a card')
+
         return cao_success({'card_id': card_id})
 
 
@@ -96,6 +106,10 @@ class CAO_Game():
 
         # we prevent the others to play
         self.state = self.WAITING_DESIGNATION
+
+        for p in self.players:
+            if p is not player:
+                p.send_notification('somebody collected the cards')
 
         return self.try_view_played_cards(player)
 
@@ -131,6 +145,10 @@ class CAO_Game():
 
         self.board.recycle_black_card()
         self.judge = None # useful or not ...
+
+        for p in self.players:
+            if p is not player:
+                p.send_notification('we need a new judge')
 
         self.state = self.WAITING_NEW_JUDGE
 

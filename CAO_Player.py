@@ -1,3 +1,5 @@
+import json
+
 class CAO_Player():
     def __init__(self, client):
         self.cards = {}
@@ -14,7 +16,6 @@ class CAO_Player():
     def pop_card(self, card_id):
         return self.cards.pop(card_id)
 
-
     def get_has_played(self):
         return self.has_played
 
@@ -27,3 +28,11 @@ class CAO_Player():
     def receive_card(self, card):
         self.cards[self.next_idx] = card
         self.next_idx += 1
+
+    def send_notification(self, obj):
+        if self.client is None:
+            return
+
+        message = json.dumps({'type': 'notification', 'content': obj})
+
+        self.client.send_notification(message)

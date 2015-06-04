@@ -2,10 +2,12 @@ from CAO_Status import cao_error
 from CAO_Game import CAO_Game
 
 class CAO_Client():
-    def __init__(self, game_manager):
+    def __init__(self, socket, handler, game_manager):
         self.game = None
         self.game_manager = game_manager
 
+        self.handler = handler
+        self.socket = socket
         self.player = None
 
     def join_game(self, game_name):
@@ -56,3 +58,6 @@ class CAO_Client():
         if self.game is None:
             return cao_error('You have to join a game first')
         return self.game.try_view_black_card(self.player)
+
+    def send_notification(self, message):
+        self.socket.send_message(self.handler, message)
