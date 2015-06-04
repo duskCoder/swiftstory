@@ -8,12 +8,26 @@ $(document).ready(function() {
         $('#btn_pick_black').show();
     };
 
+
     cao.on_show_white_card = function(idx, desc) {
-        /* to change */
-        element = $('.card_desc').eq(idx);
-        element.html(desc);
-        element.dblclick(this.gen_callback_white_card(i));
+        identifier = 'white_card_' + idx;
+        content = '<li id="' + identifier + '">' + desc + '</li>';
+
+        $('#white_cards').append(content);
+
+        $('#' + identifier).dblclick(this.gen_callback_white_card(idx));
     };
+
+    cao.on_show_played_card = function(idx, desc) {
+        identifier = 'played_card_' + idx;
+
+        content = '<li id="' + identifier + '">' + desc + '</li>';
+
+        $('#played_cards').append(content);
+
+        $('#' + identifier).dblclick(this.gen_callback_played_card(idx));
+    };
+
 
     cao.on_pick_black_card_ok = function() {
         $('#btn_collect').show();
@@ -25,14 +39,24 @@ $(document).ready(function() {
         $('#black_card').html(desc);
     };
 
+
     cao.on_played_white_card_ok = function(idx) {
-        element = $('.card_desc').eq(idx);
-        element.empty();
-        element.dblclick(null);
+        identifier = 'white_card_' + idx;
+        $('#' + identifier).remove();
     };
+
+    cao.on_designate_card_ok = function(idx) {
+        $('#played_cards').empty();
+        $('#played_cards').hide();
+        $('#black_card').hide();
+        $('#btn_collect').hide();
+        $('#btn_pick_black').show();
+    };
+
 
     cao.on_collect_cards_ok = function() {
         $('#btn_collect').hide();
+        $('#played_cards').show();
     };
 
     cao.run();

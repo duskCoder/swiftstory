@@ -10,12 +10,14 @@ var CAO = function() {
     this.on_play_white_card_ok = function(idx) { /* to override */ };
     this.on_collect_cards_ok = function() { /* to override */ };
     this.on_show_played_card = function(idx, desc) { /* to override */ };
+    this.on_designate_card_ok = function(idx) { /* to override */ };
 
     var request_queue = [];
 
     var self = this;
     var ws;
 
+    var played_cards = [];
     var white_cards = {};
     var black_card;
 
@@ -42,7 +44,7 @@ var CAO = function() {
         };
 
         ws.onerror = function(evt) {
-            alert(evt);
+            console.log(evt);
             this.on_socket_error(evt);
         };
 
@@ -117,9 +119,16 @@ var CAO = function() {
                     for (i in response['result']) {
                         desc = response['result'][i];
 
-                        console.log(desc);
+                        played_cards.push(desc);
                         self.on_show_played_card(i, desc);
                     }
+                }
+                break;
+            case 'designate_card':
+                if (response['status'] == 0) {
+                    self.on_designate_card_ok(idx);
+
+                    played_cards = [];
                 }
                 break;
             default:
@@ -135,6 +144,18 @@ var CAO = function() {
             };
 
             request_queue.push('play_white_card');
+            ws.send(JSON.stringify(request));
+        };
+    };
+
+    this.gen_callback_played_card = function(index) {
+        return function() {
+            request = {
+                'op': 'designate_card',
+                'card_id': index,
+            };
+
+            request_queue.push('designate_card');
             ws.send(JSON.stringify(request));
         };
     };
