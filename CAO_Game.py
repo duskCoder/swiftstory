@@ -40,6 +40,7 @@ class CAO_Game():
 
         player = CAO_Player(client, cards)
         client.set_player(player)
+        client.set_game(self)
 
         self.players.append(player)
 

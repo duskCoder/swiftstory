@@ -12,9 +12,13 @@ class CAO_Client():
         if self.game is not None:
             return cao_error('You are already in a game')
 
-        self.game = self.game_manager.join_game(game_name)
-        return self.game.try_join(self)
+        game = self.game_manager.join_game(game_name)
+        # XXX self.game will be assigned by game.try_join()
 
+        return game.try_join(self)
+
+    def set_game(self, game):
+        self.game = game
     def set_player(self, player):
         self.player = player
 
