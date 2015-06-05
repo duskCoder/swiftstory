@@ -29,8 +29,9 @@ $(document).ready(function() {
     cao.on_join_game_ok = function(game_state) {
         $header.show();
         $home.removeClass("current");
-        $become_judge.addClass("current");
         $become_judge_btn.on("click", function () {
+            cao.pick_black_card();
+        });
         $game.addClass("current");
         $all.hide();
         switch (game_state) {
