@@ -33,7 +33,7 @@ var CAO = function() {
     /* map_handle_response_ok {{{ */
 
     map_handle_response_ok['join_game'] = function(result) {
-        self.on_join_game_ok(result['state']);
+        self.on_join_game_ok(result['game_state']);
         map_handle_response_ok['view_player_cards'](result);
     };
 
