@@ -197,8 +197,6 @@ var CAO = function() {
     };
 
     this.join_game = function(game_name) {
-        var game_name = prompt('Name of the game');
-
         var request = {
             'op': 'join_game',
             'game_name': game_name,
