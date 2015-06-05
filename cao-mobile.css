@@ -78,17 +78,17 @@ button.card:not(.active) {
 button.card:hover {
     opacity: 1.0;
 }
-button.card.read-only {
+div.card-list.read-only > button.card {
     cursor: default;
 }
-button.card.read-only:hover {
+div.card-list.read-only > button.card:hover {
     opacity: 0.7;
 }
-button.card.read-only:active {
+div.card-list.read-only > button.card:active {
     transform: none;
     box-shadow: 0 5px 0 #999;
 }
-button.card.read-only.black:active {
+div.card-list.read-only > button.card.black:active {
     box-shadow: 0 5px 0 #000;
 }
 .bottom {
