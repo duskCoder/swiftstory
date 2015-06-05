@@ -1,4 +1,18 @@
 $(document).ready(function() {
+    $('#btn_join').click(function() {
+        var game_name = prompt('Name of the game');
+
+        cao.join_game(game_name);
+    });
+
+    $('#btn_pick_black').click(function() {
+        cao.pick_black_card();
+    });
+
+    $('#btn_collect').click(function() {
+        cao.collect_cards();
+    });
+
     cao.on_socket_open = function() {
         $('#btn_join').show();
     };
