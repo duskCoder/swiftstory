@@ -3,7 +3,7 @@ var CAO = function() {
     this.on_socket_close = function() { /* to override */ };
     this.on_socket_error = function(evt) { /* to override */};
 
-    this.on_join_game_ok = function() { /* to override */ };
+    this.on_join_game_ok = function(state) { /* to override */ };
     this.on_show_white_card = function(idx, desc) { /* to override */ };
     this.on_pick_black_card_ok = function() { /* to override */ };
     this.on_show_black_card = function(desc) { /* to override */ };
@@ -33,14 +33,14 @@ var CAO = function() {
     /* map_handle_response_ok {{{ */
 
     map_handle_response_ok['join_game'] = function(result) {
-        self.on_join_game_ok();
+        self.on_join_game_ok(result['state']);
         map_handle_response_ok['view_player_cards'](result);
     };
 
     map_handle_response_ok['view_player_cards'] = function(result) {
-        for (var i in result) {
-            var idx = result[i][0];
-            var desc = result[i][1];
+        for (var i in result['cards']) {
+            var idx = result['cards'][i][0];
+            var desc = result['cards'][i][1];
 
             white_cards[idx] = desc;
 

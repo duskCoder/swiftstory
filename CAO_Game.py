@@ -52,7 +52,16 @@ class CAO_Game():
             if p is not player:
                 p.send_notification({'op': 'player_joined_game'})
 
-        return self.try_view_player_cards(player)
+        cards = self.__view_player_cards(player)
+
+        if self.state is self.WAITING_NEW_JUDGE:
+            state = 'waiting_judge'
+        elif self.state is self.WAITING_COLLECTION:
+            state = 'waiting_collection'
+        else:
+            state = 'waiting_designation'
+
+        return cao_success({'cards': cards, 'game_state': state})
 
 
     def try_become_judge(self, player):
@@ -166,13 +175,16 @@ class CAO_Game():
 
         return cao_success(None)
 
-    def try_view_player_cards(self, player):
+    def __view_player_cards(self, player):
         cards = []
 
         for card in player.cards:
             cards.append((card, self.white_desc[player.cards[card]]))
 
-        return cao_success(cards)
+        return cards
+
+    def try_view_player_cards(self, player):
+        return cao_success(self.__view_player_cards(player))
 
     def try_view_played_cards(self, player):
         if self.state is not self.WAITING_DESIGNATION:

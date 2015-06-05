@@ -17,7 +17,7 @@ $(document).ready(function() {
         $('#btn_join').show();
     };
 
-    cao.on_join_game_ok = function() {
+    cao.on_join_game_ok = function(state) {
         $('#btn_join').hide();
         $('#btn_pick_black').show();
         $('#white_cards').show();
