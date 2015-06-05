@@ -32,6 +32,9 @@ header > span#leave-room:hover {
     margin: auto;
     max-width: 650px;
 }
+#home {
+    padding-top: 20px;
+}
 .page:not(.current) {
     display: none;
 }
