@@ -196,7 +196,7 @@ var CAO = function() {
         };
     };
 
-    $('#btn_join').click(function() {
+    this.join_game = function(game_name) {
         var game_name = prompt('Name of the game');
 
         var request = {
@@ -205,23 +205,23 @@ var CAO = function() {
         };
         request_queue.push('join_game');
         ws.send(JSON.stringify(request));
-    });
+    };
 
-    $('#btn_pick_black').click(function() {
+    this.pick_black_card = function() {
         var request = {
             'op': 'pick_black_card',
         };
         request_queue.push('pick_black_card');
         ws.send(JSON.stringify(request));
-    });
+    };
 
-    $('#btn_collect').click(function() {
+    this.collect_cards = function() {
         var request = {
             'op': 'collect_cards',
         };
         request_queue.push('collect_cards');
         ws.send(JSON.stringify(request));
-    });
+    };
 
     this.request_show_cards = function() {
         var request = {
