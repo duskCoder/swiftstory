@@ -4,13 +4,84 @@
     <meta charset="utf-8">
     <title>CAO</title>
     <link rel="stylesheet" href="cao-common.css">
-    <script src="jquery.js"></script>
+    <link rel="stylesheet" href="cao-mobile.css">
+    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="cao-common.js"></script>
     <script src="cao-mobile.js"></script>
   </head>
   <body>
   <div data-role="page">
-      <!-- TODO -->
-  </div>
+      <header>
+          <span>Leave this room</span>
+      </header>
+      <div id="home" class="page current">
+          <h1>Cards Against Humanity</h1>
+          <h2>A party game for horrible people.</h2>
+          <button id="join-btn" class="bottom" hidden>Join game!</button>
+      </div>
+      <div id="become-judge" class="page">
+          <div class="card-list read-only">
+              <button class="card">The female orgasm.</button>
+              <button class="card">Coat hanger abortions.</button>
+              <button class="card">Some god-damn peace and quiet.</button>
+              <button class="card">Overpowering your father.</button>
+              <button class="card">Alcoholism.</button>
+              <button class="card">Count Chocula.</button>
+              <button class="card">My sex dungeon.</button>
+              <button class="card">24-hour media coverage.</button>
+              <button class="card">Words, words, words.</button>
+              <button class="card">A cop who is also a dog.</button>
+          </div>
+          <button class="bottom">Become judge!</button>
+      </div>
+      <div id="judge-collect" class="page">
+          <div class="card-list read-only">
+              <button class="card black">During high school, I never really fit in until I found _____ club.</button>
+          </div>
+          <div class="message">You have 2 cards!</div>
+          <div class="card-list read-only">
+              <button class="card">The female orgasm.</button>
+              <button class="card">Coat hanger abortions.</button>
+              <button class="card">Some god-damn peace and quiet.</button>
+              <button class="card">Overpowering your father.</button>
+              <button class="card">Alcoholism.</button>
+              <button class="card">Count Chocula.</button>
+              <button class="card">My sex dungeon.</button>
+              <button class="card">24-hour media coverage.</button>
+              <button class="card">Words, words, words.</button>
+              <button class="card">A cop who is also a dog.</button>
+          </div>
+          <button class="bottom">Collect!</button>
+      </div>
+      <div id="judge-choice" class="page">
+          <div class="card-list">
+              <button class="card">The female orgasm.</button>
+              <button class="card">Coat hanger abortions.</button>
+              <button class="card">Some god-damn peace and quiet.</button>
+              <button class="card">Overpowering your father.</button>
+              <button class="card">Alcoholism.</button>
+              <button class="card">Count Chocula.</button>
+              <button class="card">My sex dungeon.</button>
+              <button class="card">24-hour media coverage.</button>
+              <button class="card">Words, words, words.</button>
+              <button class="card">A cop who is also a dog.</button>
+          </div>
+          <div class="bottom">During high school, I never really fit in until I found _____ club..</div>
+      </div>
+      <div id="player-choice" class="page">
+          <div class="card-list">
+              <button class="card">The female orgasm.</button>
+              <button class="card">Coat hanger abortions.</button>
+              <button class="card">Some god-damn peace and quiet.</button>
+              <button class="card">Overpowering your father.</button>
+              <button class="card">Alcoholism.</button>
+              <button class="card">Count Chocula.</button>
+              <button class="card">My sex dungeon.</button>
+              <button class="card">24-hour media coverage.</button>
+              <button class="card">Words, words, words.</button>
+              <button class="card">A cop who is also a dog.</button>
+          </div>
+          <div class="bottom">Choose a card...</div>
+      </div>
   </body>
 </html>
