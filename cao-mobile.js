@@ -1,16 +1,22 @@
 $(document).ready(function() {
+    var $home = $("#home");
+    var $become_judge = $("#become-judge");
+    var $join_btn = $("#join-btn");
+    var $become_judge_btn = $("#become-judge-btn");
+
     cao.on_socket_open = function() {
-        var $joinBtn = $("#join-btn");
-        $joinBtn.show();
-        $joinBtn.on("click", function () {
+        $join_btn.show();
+        $join_btn.on("click", function () {
             cao.join_game(prompt('Name of the game'));
         });
     };
 
     cao.on_join_game_ok = function() {
-        $('#btn_join').hide();
-        $('#btn_pick_black').show();
-        $('#white_cards').show();
+        $home.removeClass("current");
+        $become_judge.addClass("current");
+        $become_judge_btn.on("click", function () {
+            cao.pick_black_card();
+        });
     };
 
     cao.on_show_white_card = function(idx, desc) {
