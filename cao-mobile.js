@@ -14,6 +14,7 @@ $(document).ready(function() {
     var $played_card_number = $("#played-card-number");
     var $header = $("header");
     var $white_cards = $('#white-cards');
+    var $score_value = $('#score-value');
 
     $leave_room.click(function () {
         window.location.reload();
@@ -106,6 +107,10 @@ $(document).ready(function() {
     cao.on_judge_needed = function() {
         $all.hide();
         $become_judge.show();
+    };
+
+    cao.on_updated_score = function(score) {
+        $score_value.html(score);
     };
 
     cao.run();
