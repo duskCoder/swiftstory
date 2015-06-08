@@ -80,5 +80,9 @@ $(document).ready(function() {
         $('#btn_pick_black').show();
     };
 
+    cao.on_updated_score = function(score) {
+        console.log('new score: ' + score);
+    };
+
     cao.run();
 });
