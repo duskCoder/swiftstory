@@ -24,6 +24,10 @@ class CAO_Player():
 
     def inc_score(self):
         self.score += 1
+        self.send_notification({
+            'op': 'updated_score',
+            'content': self.score,
+            })
 
     def receive_card(self, card):
         self.cards[self.next_idx] = card
