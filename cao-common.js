@@ -17,6 +17,7 @@ var CAO = function() {
     this.on_player_joined_game = function() { /* to override */ };
     this.on_card_played = function() { /* to override */ };
     this.on_cards_collected = function() { /* to override */ };
+    this.on_updated_score = function(new_score) { };
 
     var request_queue = [];
 
@@ -26,6 +27,8 @@ var CAO = function() {
     var played_cards = [];
     var white_cards = {};
     var black_card;
+
+    var score = 0;
 
     var map_handle_response_ok = {};
     var map_handle_notif = {};
@@ -122,6 +125,12 @@ var CAO = function() {
 
     map_handle_notif['cards_collected'] = function(result) {
         self.on_cards_collected();
+    };
+
+    map_handle_notif['updated_score'] = function(result) {
+        self.score = result;
+
+        self.on_updated_score(self.score);
     };
 
     /* }}} */
