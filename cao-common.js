@@ -42,7 +42,10 @@ var CAO = function() {
             var idx = result['cards'][i][0];
             var desc = result['cards'][i][1];
 
-            white_cards[idx] = desc;
+            white_cards[idx] = {
+                'desc': desc,
+                'event': self.gen_callback_white_card(idx)
+            };
 
             self.on_show_white_card(idx, desc)
         }
@@ -97,7 +100,10 @@ var CAO = function() {
         var idx = result['card']['id'];
         var desc = result['card']['desc'];
 
-        white_cards[idx] = desc;
+        white_cards[idx] = {
+            'desc': desc,
+            'event': self.gen_callback_white_card(idx)
+        };
 
         self.on_show_white_card(idx, desc);
     };
