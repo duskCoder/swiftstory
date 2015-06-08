@@ -10,12 +10,18 @@ class CAO_Client():
         self.socket = socket
         self.player = None
 
-    def join_game(self, game_name):
+    def join_game(self, game_name, lang):
         if self.game is not None:
             return cao_error('You are already in a game')
 
-        game = self.game_manager.join_game(game_name)
+        if lang is None:
+            lang = 'en'
+
+        game = self.game_manager.join_game(game_name, lang)
         # XXX self.game will be assigned by game.try_join()
+
+        if game is None:
+            return cao_error('Invalid language')
 
         return game.try_join(self)
 

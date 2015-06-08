@@ -28,7 +28,8 @@ def message_received_handler(client, server, message):
             except KeyError:
                 res = cao_error('field `game_name\' is required')
             else:
-                res = client['cao_client'].join_game(game_name)
+                lang = json_msg.get('lang')
+                res = client['cao_client'].join_game(game_name, lang)
         elif op == 'view_player_cards':
             res = client['cao_client'].view_player_cards()
         elif op == 'view_black_card':
