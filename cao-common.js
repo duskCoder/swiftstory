@@ -18,6 +18,7 @@ var CAO = function() {
     this.on_card_played = function() { /* to override */ };
     this.on_cards_collected = function() { /* to override */ };
     this.on_updated_score = function(new_score) { /* to override */ };
+    this.on_change_nbr_played_cards = function(nbr) { /* to override */ };
 
     var request_queue = [];
 
@@ -25,6 +26,8 @@ var CAO = function() {
 
     var self = this;
     var ws;
+
+    var nbr_played_cards = 0;
 
     var played_cards = [];
     var white_cards = {};
@@ -37,6 +40,18 @@ var CAO = function() {
 
     this.is_judge = function() {
         return judge;
+    };
+
+    this.reset_nbr_played_cards = function() {
+        nbr_played_cards = 0;
+
+        self.on_change_nbr_played_cards(nbr_played_cards);
+    };
+
+    this.incr_nbr_played_cards = function() {
+        ++nbr_played_cards;
+
+        self.on_change_nbr_played_cards(nbr_played_cards);
     };
 
     /* map_handle_response_ok {{{ */

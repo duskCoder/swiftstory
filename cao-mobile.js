@@ -50,10 +50,6 @@ $(document).ready(function() {
         }
     };
 
-    cao.on_card_played = function(card_number) {
-        $played_card_number.text(($played_card_number.text() + 1).toString());
-    };
-
     cao.on_show_white_card = function(idx, desc) {
         var identifier = 'white-card-' + idx;
         var content = '<button class="read-only card" id="' + identifier + '">' + desc + '</button>';
@@ -111,6 +107,8 @@ $(document).ready(function() {
         $score_value.text(score);
     };
 
+    cao.on_change_nbr_played_cards = function(nbr) {
+        $played_card_number.text(nbr);
     };
 
     cao.run();
