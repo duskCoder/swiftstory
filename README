@@ -1,0 +1,16 @@
+Requirements
+============
+
+- python-websocket-server (available here
+  https://github.com/Pithikos/python-websocket-server or via pip)
+
+Execution
+=========
+
+Start the python server (it will listen to any connection on port 1236)
+
+    $ ./server.py &
+
+Then configure your webserver to deal with the web pages or use
+
+    $ php -S <listen_addr>:<port> &
