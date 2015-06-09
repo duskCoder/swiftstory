@@ -24,11 +24,12 @@ $(document).ready(function() {
         cao.pick_black_card();
     });
 
+    $join_btn.click(function () {
+        cao.join_game(prompt('Name of the game'));
+    });
+
     cao.on_socket_open = function() {
         $join_btn.show();
-        $join_btn.on("click", function () {
-            cao.join_game(prompt('Name of the game'));
-        });
     };
 
     cao.on_join_game_ok = function() {
@@ -50,15 +51,19 @@ $(document).ready(function() {
                     $judge_choose.show();
                 } else {
                     $player_wait.show();
-                    $white_cards.addClass("read-only");
+                    $white_cards.attr('disabled', true);
+                    $white_cards.addClass('read-only');
                 }
                 break;
             case 'waiting_collection':
                 if (cao.is_judge()) {
                     $judge_collect.show();
+                    $white_cards.attr('disabled', true);
+                    $white_cards.addClass('read-only');
                 } else {
                     $player_choose.show();
-                    $white_cards.removeClass("read-only");
+                    $white_cards.removeAttr('disabled');
+                    $white_cards.removeClass('read-only');
                 }
                 break;
             default:
@@ -69,17 +74,17 @@ $(document).ready(function() {
 
     cao.on_show_white_card = function(idx, desc) {
         var identifier = 'white-card-' + idx;
-        var content = '<button class="read-only card" id="' + identifier + '">' + desc + '</button>';
+        var content = '<button name="' + idx + '" class="read-only card" id="' + identifier + '">' + desc + '</button>';
         $white_cards.append(content);
         var self = this;
         $('#' + identifier).click(function () {
             var $this = $(this);
-            if (!$white_cards.hasClass("read-only")) {
+            if (!$white_cards.attr('disabled')) {
                 if ($this.hasClass("active")) {
-                    self.gen_callback_white_card(idx);
+                    cao.get_white_card_event($this.prop('name'))();
                 } else {
                     $white_cards.find("> .card").removeClass("active");
-                    $(this).addClass("active");
+                    $this.addClass("active");
                 }
             }
         });
@@ -92,7 +97,12 @@ $(document).ready(function() {
     };
 
     cao.on_play_white_card_ok = function(idx) {
-        $('#white-card-' + identifier).remove();
+        $white_cards.attr('disabled', true);
+        $white_cards.addClass('read-only');
+
+        $player_wait.show();
+
+        $('#white-card-' + idx).remove();
     };
 
     cao.on_updated_score = function(score) {
