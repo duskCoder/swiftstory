@@ -17,7 +17,7 @@ var CAO = function() {
     this.on_player_joined_game = function() { /* to override */ };
     this.on_card_played = function() { /* to override */ };
     this.on_cards_collected = function() { /* to override */ };
-    this.on_updated_score = function(new_score) { };
+    this.on_updated_score = function(new_score) { /* to override */ };
 
     var request_queue = [];
 

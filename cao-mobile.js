@@ -107,10 +107,10 @@ $(document).ready(function() {
     cao.on_judge_needed = function() {
         $all.hide();
         $become_judge.show();
+    cao.on_updated_score = function(score) {
+        $score_value.text(score);
     };
 
-    cao.on_updated_score = function(score) {
-        $score_value.html(score);
     };
 
     cao.run();
