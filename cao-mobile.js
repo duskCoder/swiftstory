@@ -20,6 +20,10 @@ $(document).ready(function() {
         window.location.reload();
     });
 
+    $become_judge_btn.click(function() {
+        cao.pick_black_card();
+    });
+
     cao.on_socket_open = function() {
         $join_btn.show();
         $join_btn.on("click", function () {
@@ -27,25 +31,38 @@ $(document).ready(function() {
         });
     };
 
-    cao.on_join_game_ok = function(game_state) {
+    cao.on_join_game_ok = function() {
         $header.show();
         $home.removeClass("current");
         $game.addClass("current");
         $all.hide();
-        switch (game_state) {
-            case "waiting_collection":
-                $player_choose.show();
-                $white_cards.removeClass("read-only");
-                break;
-            case "waiting_designation":
-                $player_wait.show();
-                $white_cards.addClass("read-only");
-                break;
-            case "waiting_judge":
+    };
+
+    cao.on_change_state = function(state) {
+        $all.hide();
+
+        switch (state) {
+            case 'waiting_judge':
                 $become_judge.show();
-                $become_judge_btn.on("click", function() {
-                    cao.pick_black_card();
-                });
+                break;
+            case 'waiting_designation':
+                if (cao.is_judge()) {
+                    $judge_choose.show();
+                } else {
+                    $player_wait.show();
+                    $white_cards.addClass("read-only");
+                }
+                break;
+            case 'waiting_collection':
+                if (cao.is_judge()) {
+                    $judge_collect.show();
+                } else {
+                    $player_choose.show();
+                    $white_cards.removeClass("read-only");
+                }
+                break;
+            default:
+                console.log('unhandled state');
                 break;
         }
     };
@@ -70,39 +87,14 @@ $(document).ready(function() {
 
     cao.on_show_played_card = cao.on_show_white_card;
 
-
-    cao.on_pick_black_card_ok = function() {
-        $all.hide();
-        $judge_collect.show();
-    };
-
     cao.on_show_black_card = function(desc) {
         $('#black-card').html(desc);
     };
-
 
     cao.on_play_white_card_ok = function(idx) {
         $('#white-card-' + identifier).remove();
     };
 
-    cao.on_designate_card_ok = function() {
-        // TODO
-    };
-
-    cao.on_collect_cards_ok = function() {
-        $all.hide();
-        $judge_choose.show();
-    };
-
-    cao.on_judge_designed = function() {
-        $all.hide();
-        $player_choose.show();
-        $white_cards.removeClass("read-only");
-    };
-
-    cao.on_judge_needed = function() {
-        $all.hide();
-        $become_judge.show();
     cao.on_updated_score = function(score) {
         $score_value.text(score);
     };

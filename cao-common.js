@@ -18,6 +18,7 @@ var CAO = function() {
     this.on_card_played = function() { /* to override */ };
     this.on_cards_collected = function() { /* to override */ };
     this.on_updated_score = function(new_score) { /* to override */ };
+    this.on_change_state = function(state) { /* to override */ };
     this.on_change_nbr_played_cards = function(nbr) { /* to override */ };
 
     var request_queue = [];
@@ -54,10 +55,33 @@ var CAO = function() {
         self.on_change_nbr_played_cards(nbr_played_cards);
     };
 
+    this.change_state = function(state) {
+        game_state = state;
+
+        switch (state) {
+            case 'waiting_judge':
+                self.reset_nbr_played_cards();
+                judge = false;
+
+                self.on_judge_needed();
+
+                break;
+            case 'waiting_collection':
+                break;
+            case 'waiting_designation':
+                break;
+        }
+
+        this.on_change_state(state);
+    };
+
     /* map_handle_response_ok {{{ */
 
     map_handle_response_ok['join_game'] = function(result) {
-        self.on_join_game_ok(result['game_state']);
+        self.on_join_game_ok();
+
+        self.change_state(result['game_state']);
+
         map_handle_response_ok['view_player_cards'](result);
     };
 
@@ -77,6 +101,7 @@ var CAO = function() {
 
     map_handle_response_ok['pick_black_card'] = function(result) {
         judge = true;
+        self.change_state('waiting_collection');
 
         self.on_pick_black_card_ok();
         map_handle_response_ok['view_black_card'](result);
@@ -96,6 +121,8 @@ var CAO = function() {
     };
 
     map_handle_response_ok['collect_cards'] = function(result) {
+        self.change_state('waiting_designation');
+
         self.on_collect_cards_ok();
         map_handle_response_ok['view_played_cards'](result);
     };
@@ -110,6 +137,8 @@ var CAO = function() {
     };
 
     map_handle_response_ok['designate_card'] = function(result) {
+        self.change_state('waiting_judge');
+
         self.on_designate_card_ok();
 
         played_cards = [];
@@ -119,6 +148,8 @@ var CAO = function() {
     /* handle_notif {{{ */
 
     map_handle_notif['judge_designed'] = function(result) {
+        self.change_state('waiting_collection');
+
         self.on_judge_designed();
     };
 
@@ -135,7 +166,7 @@ var CAO = function() {
     };
 
     map_handle_notif['judge_needed'] = function(result) {
-        self.on_judge_needed();
+        self.change_state('waiting_judge');
     };
 
     map_handle_notif['player_joined_game'] = function(result) {
@@ -143,10 +174,14 @@ var CAO = function() {
     };
 
     map_handle_notif['card_played'] = function(result) {
+        self.incr_nbr_played_cards();
+
         self.on_card_played();
     };
 
     map_handle_notif['cards_collected'] = function(result) {
+        self.change_state('waiting_designation');
+
         self.on_cards_collected();
     };
 
