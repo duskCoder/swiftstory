@@ -55,6 +55,10 @@ var CAO = function() {
         self.on_change_nbr_played_cards(nbr_played_cards);
     };
 
+    this.get_white_card_event = function(idx) {
+        return white_cards[idx]['event'];
+    };
+
     this.change_state = function(state) {
         game_state = state;
 
