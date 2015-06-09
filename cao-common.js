@@ -59,11 +59,16 @@ var CAO = function() {
         return white_cards[idx]['event'];
     };
 
+    this.get_played_card_event = function(idx) {
+        return played_cards[idx]['event'];
+    };
+
     this.change_state = function(state) {
         game_state = state;
 
         switch (state) {
             case 'waiting_judge':
+                played_cards = [];
                 self.reset_nbr_played_cards();
                 judge = false;
 
@@ -135,7 +140,10 @@ var CAO = function() {
         for (var i in result) {
             var desc = result[i];
 
-            played_cards.push(desc);
+            played_cards.push({
+                'desc': desc,
+                'event': self.gen_callback_played_card(i),
+            });
             self.on_show_played_card(i, desc);
         }
     };
@@ -144,8 +152,6 @@ var CAO = function() {
         self.change_state('waiting_judge');
 
         self.on_designate_card_ok();
-
-        played_cards = [];
     };
 
     /* }}} */
