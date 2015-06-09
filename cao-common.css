@@ -15,6 +15,10 @@ td {
     display: none;
 }
 
+#played_cards {
+    display: none;
+}
+
 #btn_join {
     display: none;
 }

@@ -29,11 +29,12 @@
               <div class="message">You have <span id="played-card-number">0</span> cards!</div>
           </div>
           <div id="white-cards" class="card-list read-only" disabled='disabled'></div>
+          <div id="played-cards" class="card-list read-only"></div>
           <button id="become-judge-btn" class="bottom" data-state="become-judge">Become judge!</button>
-          <div class="bottom" data-state="judge-choose"></div>
+          <div class="bottom" data-state="judge-choose">Pick the best card...</div>
           <div class="bottom" data-state="player-choose">Choose a card...</div>
           <div class="bottom" data-state="player-wait">Waiting for judge...</div>
-          <button class="bottom" data-state="judge-collect">Collect!</button>
+          <button id="judge-collect-btn" class="bottom" data-state="judge-collect">Collect!</button>
       </div>
   </body>
 </html>

@@ -10,10 +10,12 @@ $(document).ready(function() {
     var $all = $("[data-state]");
     var $join_btn = $("#join-btn");
     var $become_judge_btn = $("#become-judge-btn");
+    var $judge_collect_btn = $("#judge-collect-btn");
     var $black_card = $("#black-card");
     var $played_card_number = $("#played-card-number");
     var $header = $("header");
     var $white_cards = $('#white-cards');
+    var $played_cards = $('#played-cards');
     var $score_value = $('#score-value');
 
     $leave_room.click(function () {
@@ -26,6 +28,10 @@ $(document).ready(function() {
 
     $join_btn.click(function () {
         cao.join_game(prompt('Name of the game'));
+    });
+
+    $judge_collect_btn.click(function() {
+        cao.collect_cards();
     });
 
     cao.on_socket_open = function() {
@@ -49,6 +55,8 @@ $(document).ready(function() {
             case 'waiting_designation':
                 if (cao.is_judge()) {
                     $judge_choose.show();
+                    $played_cards.removeAttr('disabled');
+                    $played_cards.removeClass('read-only');
                 } else {
                     $player_wait.show();
                     $white_cards.attr('disabled', true);
@@ -90,7 +98,23 @@ $(document).ready(function() {
         });
     };
 
-    cao.on_show_played_card = cao.on_show_white_card;
+    cao.on_show_played_card = function(idx, desc) {
+        var identifier = 'played-card-' + idx;
+        var content = '<button name="' + idx + '" class="read-only card" id="' + identifier + '">' + desc + '</button>';
+        $played_cards.append(content);
+        var self = this;
+        $('#' + identifier).click(function () {
+            var $this = $(this);
+            if (!$played_cards.attr('disabled')) {
+                if ($this.hasClass("active")) {
+                    cao.get_played_card_event($this.prop('name'))();
+                } else {
+                    $played_cards.find("> .card").removeClass("active");
+                    $this.addClass("active");
+                }
+            }
+        });
+    };
 
     cao.on_show_black_card = function(desc) {
         $('#black-card').html(desc);
@@ -111,6 +135,19 @@ $(document).ready(function() {
 
     cao.on_change_nbr_played_cards = function(nbr) {
         $played_card_number.text(nbr);
+    };
+
+    cao.on_collect_cards_ok = function() {
+        $white_cards.hide();
+        $played_cards.show();
+    };
+
+    cao.on_designate_card_ok = function(idx) {
+        console.log('will remove : [' + idx + ']');
+        $played_cards.empty();
+
+        $played_cards.hide();
+        $white_cards.show();
     };
 
     cao.run();
