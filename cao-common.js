@@ -21,6 +21,8 @@ var CAO = function() {
 
     var request_queue = [];
 
+    var judge = false;
+
     var self = this;
     var ws;
 
@@ -32,6 +34,10 @@ var CAO = function() {
 
     var map_handle_response_ok = {};
     var map_handle_notif = {};
+
+    this.is_judge = function() {
+        return judge;
+    };
 
     /* map_handle_response_ok {{{ */
 
@@ -55,6 +61,8 @@ var CAO = function() {
     };
 
     map_handle_response_ok['pick_black_card'] = function(result) {
+        judge = true;
+
         self.on_pick_black_card_ok();
         map_handle_response_ok['view_black_card'](result);
     };
