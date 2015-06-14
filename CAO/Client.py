@@ -1,7 +1,7 @@
-from CAO_Status import cao_error
-from CAO_Game import CAO_Game
+from CAO.Status import cao_error
+from CAO.Game import Game
 
-class CAO_Client():
+class Client():
     def __init__(self, socket, handler, game_manager):
         self.game = None
         self.game_manager = game_manager

@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
 from websocket_server import WebsocketServer
-import CAO_GameManager
-import CAO_Client
-from CAO_Status import cao_error
+import CAO.GameManager
+import CAO.Client
+from CAO.Status import cao_error
 
 import json
 
-game_manager = CAO_GameManager.CAO_GameManager()
+game_manager = CAO.GameManager.GameManager()
 
 def new_client_handler(client, server):
-    client['cao_client'] = CAO_Client.CAO_Client(server, client, game_manager)
+    client['cao_client'] = CAO.Client.Client(server, client, game_manager)
 
 def client_left_handler(client, server):
     client['cao_client'].disconnect();

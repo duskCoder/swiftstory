@@ -1,4 +1,4 @@
-class CAO_Cards():
+class Cards():
     @staticmethod
     def get_white_cards(lang):
         ''' Read the file containing the white cards and return a list of cards '''

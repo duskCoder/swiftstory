@@ -1,6 +1,6 @@
 import random
 
-class CAO_Board():
+class Board():
     def __init__(self, white_cards, black_cards):
         self.white_pick = white_cards
         self.black_pick = black_cards

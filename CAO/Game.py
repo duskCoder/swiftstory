@@ -1,11 +1,11 @@
-from CAO_Player import CAO_Player
-from CAO_Board import CAO_Board
+from CAO.Player import Player
+from CAO.Board import Board
 
-from CAO_Status import cao_error, cao_success
+from CAO.Status import cao_error, cao_success
 
 import json
 
-class CAO_Game():
+class Game():
     WAITING_NEW_JUDGE = 0,
     WAITING_COLLECTION = 1,
     WAITING_DESIGNATION = 2,
@@ -24,7 +24,7 @@ class CAO_Game():
 
         self.judge = None
 
-        self.board = CAO_Board(white_pick, black_pick)
+        self.board = Board(white_pick, black_pick)
 
     def try_join(self, client):
         if len(self.players) >= 10:
@@ -38,7 +38,7 @@ class CAO_Game():
         except IndexError:
             return cao_error('no enough white cards for player')
 
-        player = CAO_Player(client)
+        player = Player(client)
 
         for card in cards:
             player.receive_card(card)

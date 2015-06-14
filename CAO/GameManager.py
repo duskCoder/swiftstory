@@ -1,9 +1,9 @@
-from CAO_Game import CAO_Game
-from CAO_Cards import CAO_Cards
+from CAO.Game import Game
+from CAO.Cards import Cards
 
 import os
 
-class CAO_GameManager():
+class GameManager():
     def __init__(self):
         self.langs = {}
 
@@ -11,8 +11,8 @@ class CAO_GameManager():
             self.langs[filename] = {}
 
         for lang in self.langs:
-            self.langs[lang]['black_cards'] = CAO_Cards.get_black_cards(lang)
-            self.langs[lang]['white_cards'] = CAO_Cards.get_white_cards(lang)
+            self.langs[lang]['black_cards'] = Cards.get_black_cards(lang)
+            self.langs[lang]['white_cards'] = Cards.get_white_cards(lang)
 
             self.langs[lang]['games'] = {}
 
@@ -29,6 +29,6 @@ class CAO_GameManager():
         if game is None:
             print('Starting new game')
 
-            game = games[game_name] = CAO_Game(white_cards, black_cards)
+            game = games[game_name] = Game(white_cards, black_cards)
 
         return game

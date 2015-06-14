@@ -1,6 +1,6 @@
 import json
 
-class CAO_Player():
+class Player():
     def __init__(self, client):
         self.cards = {}
         self.next_idx = 0
