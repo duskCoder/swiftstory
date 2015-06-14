@@ -4,13 +4,15 @@ Requirements
 - python-websocket-server (available here
   https://github.com/Pithikos/python-websocket-server or via pip)
 
+Installation of the Server
+==========================
+
+    $ python setup.py build
+    $ [sudo] python setup.py install
+
 Execution
 =========
 
 Start the python server (it will listen to any connection on port 1236)
 
-    $ ./server.py &
-
-Then configure your webserver to deal with the web pages or use
-
-    $ php -S <listen_addr>:<port> &
+    $ cao-server &
