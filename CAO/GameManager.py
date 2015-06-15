@@ -7,7 +7,7 @@ class GameManager():
     def __init__(self):
         self.langs = {}
 
-        for filename in next(os.walk('lang'))[1]:
+        for filename in next(os.walk('usr/share/cao/lang'))[1]:
             self.langs[filename] = {}
 
         for lang in self.langs:

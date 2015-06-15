@@ -15,7 +15,7 @@ Execution
 
 Start the python server (it will listen to any connection on port 1236)
 
-    $ cao-server &
+    $ chdir / && cao-server &
 
 Installation of the web application
 ===================================
