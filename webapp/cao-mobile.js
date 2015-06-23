@@ -143,7 +143,6 @@ $(document).ready(function() {
     };
 
     cao.on_designate_card_ok = function(idx) {
-        console.log('will remove : [' + idx + ']');
         $played_cards.empty();
 
         $played_cards.hide();

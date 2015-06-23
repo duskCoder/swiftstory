@@ -146,6 +146,10 @@ var CAO = function() {
             });
             self.on_show_played_card(i, desc);
         }
+
+        if (!result.length) {
+            self.gen_callback_played_card(null)();
+        }
     };
 
     map_handle_response_ok['designate_card'] = function(result) {

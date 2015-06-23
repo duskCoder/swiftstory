@@ -39,11 +39,12 @@ def message_received_handler(client, server, message):
         elif op == 'pick_black_card':
             res = client['cao_client'].pick_black_card()
         elif op == 'designate_card':
+            card_id = None
             try:
                 card_id = int(json_msg['card_id'])
-            except KeyError:
-                res = cao_error('field `card_id\' is required')
-            else:
+            except (KeyError, TypeError):
+                pass
+            finally:
                 res = client['cao_client'].designate_card(card_id)
         elif op == 'play_white_card':
             try:
