@@ -148,7 +148,7 @@ class Game():
 
             # reset the state of the players
             for p in self.players:
-                if p.get_has_played:
+                if p.get_has_played():
                     idx = p.receive_card(self.board.pick_white_card())
                     card_idx = p.cards[idx]
                     card_desc = self.white_desc[card_idx]
