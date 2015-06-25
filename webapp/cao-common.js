@@ -28,6 +28,8 @@ var CAO = function() {
     var self = this;
     var ws;
 
+    var lang;
+
     var nbr_played_cards = 0;
 
     var played_cards = [];
@@ -38,6 +40,10 @@ var CAO = function() {
 
     var map_handle_response_ok = {};
     var map_handle_notif = {};
+
+    this.set_lang = function(language) {
+        lang = language;
+    };
 
     this.is_judge = function() {
         return judge;
@@ -287,6 +293,7 @@ var CAO = function() {
         var request = {
             'op': 'join_game',
             'game_name': game_name,
+            'lang': lang,
         };
         request_queue.push('join_game');
         ws.send(JSON.stringify(request));
