@@ -3,9 +3,9 @@ $(document).ready(function() {
     var hostname = document.location.hostname;
 
     /* XXX replace this with your desired behaviour */
-    if (hostname.startsWith('fr.')) {
+    if (hostname.substring(0, 3) === 'fr.') {
         lang = 'fr';
-    } else if (hostname.startsWith('en.')) {
+    } else if (hostname.substring(0, 3) === 'en.') {
         lang = 'en';
     }
 
