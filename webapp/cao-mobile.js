@@ -51,6 +51,8 @@ $(document).ready(function() {
         switch (state) {
             case 'waiting_judge':
                 $become_judge.show();
+                $white_cards.attr('disabled', true);
+                $white_cards.addClass('read-only');
                 break;
             case 'waiting_designation':
                 if (cao.is_judge()) {

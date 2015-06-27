@@ -70,4 +70,4 @@ class Client():
 
     def disconnect(self):
         if self.player is not None:
-            self.player.client = None
+            self.game.disconnect(self.player)

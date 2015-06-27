@@ -165,7 +165,7 @@ class Game():
                     p.set_has_played(False)
 
         self.board.recycle_black_card()
-        self.judge = None # useful or not ...
+        self.judge = None
 
         for p in self.players:
             if p is not player:
@@ -204,3 +204,32 @@ class Game():
             return cao_success(self.black_desc[card])
 
         return cao_error('The black card has not been revealed yet')
+
+    def disconnect(self, player):
+        player.client = None
+
+        if self.judge is player:
+            self.board.recycle_black_card()
+            self.judge = None
+
+            for p in self.players:
+                p.send_notification({'op': 'judge_needed'})
+
+            for card, p in self.board.played_cards:
+                idx = p.receive_card(card)
+                card_idx = p.cards[idx]
+                card_desc = self.white_desc[card_idx]
+
+                p.send_notification({
+                    'op': 'received_card',
+                    'content': {
+                        'card': {
+                            'id': idx,
+                            'desc': card_desc,
+                            },
+                        },
+                    })
+                p.set_has_played(False)
+
+            self.board.played_cards = []
+            self.state = self.WAITING_NEW_JUDGE
