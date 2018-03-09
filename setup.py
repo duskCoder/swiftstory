@@ -1,8 +1,4 @@
-from distutils.core import setup
-
-packages = [
-        'swiftstory',
-        ]
+from setuptools import setup, find_packages
 
 prefix = '/'
 share_dir = 'usr/share/swiftstory/'
@@ -23,16 +19,17 @@ for n in os.walk('usr'):
 
 print(data_files)
 
-scripts = [
-        'swiftstoryd',
-        ]
-
 setup(
-        name='swiftstory',
-        version='0.1',
-        author='Olivier Gayot',
-        author_email='olivier.gayot@sigexec.com',
-        packages=packages,
-        data_files=data_files,
-        scripts=scripts,
-        )
+        name = 'swiftstory',
+        description = "SwiftStory game: We're not out of the woods yet.",
+        version = '0.1',
+        author = 'Olivier Gayot',
+        author_email = 'olivier.gayot@sigexec.com',
+        packages = find_packages(),
+        data_files = data_files,
+        entry_points = {
+            'console_scripts': [
+                'swiftstoryd = swiftstory.SwiftStory:main',
+            ],
+        }
+)
