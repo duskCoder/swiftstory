@@ -1,5 +1,5 @@
-from CAO.Game import Game
-from CAO.Cards import Cards
+from swiftstory.Game import Game
+from swiftstory.Cards import Cards
 
 import os
 
@@ -7,7 +7,7 @@ class GameManager():
     def __init__(self):
         self.langs = {}
 
-        for filename in next(os.walk('usr/share/cao/lang'))[1]:
+        for filename in next(os.walk('usr/share/swiftstory/lang'))[1]:
             self.langs[filename] = {}
 
         for lang in self.langs:

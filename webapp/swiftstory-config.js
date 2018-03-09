@@ -9,5 +9,5 @@ $(document).ready(function() {
         lang = 'en';
     }
 
-    cao.set_lang(lang);
+    swst.set_lang(lang);
 });

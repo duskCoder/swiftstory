@@ -23,29 +23,29 @@ $(document).ready(function() {
     });
 
     $become_judge_btn.click(function() {
-        cao.pick_black_card();
+        swst.pick_black_card();
     });
 
     $join_btn.click(function () {
-        cao.join_game(prompt('Name of the game'));
+        swst.join_game(prompt('Name of the game'));
     });
 
     $judge_collect_btn.click(function() {
-        cao.collect_cards();
+        swst.collect_cards();
     });
 
-    cao.on_socket_open = function() {
+    swst.on_socket_open = function() {
         $join_btn.show();
     };
 
-    cao.on_join_game_ok = function() {
+    swst.on_join_game_ok = function() {
         $header.show();
         $home.removeClass("current");
         $game.addClass("current");
         $all.hide();
     };
 
-    cao.on_change_state = function(state) {
+    swst.on_change_state = function(state) {
         $all.hide();
 
         switch (state) {
@@ -55,7 +55,7 @@ $(document).ready(function() {
                 $white_cards.addClass('read-only');
                 break;
             case 'waiting_designation':
-                if (cao.is_judge()) {
+                if (swst.is_judge()) {
                     $judge_choose.show();
                     $played_cards.removeAttr('disabled');
                     $played_cards.removeClass('read-only');
@@ -66,7 +66,7 @@ $(document).ready(function() {
                 }
                 break;
             case 'waiting_collection':
-                if (cao.is_judge()) {
+                if (swst.is_judge()) {
                     $judge_collect.show();
                     $white_cards.attr('disabled', true);
                     $white_cards.addClass('read-only');
@@ -82,7 +82,7 @@ $(document).ready(function() {
         }
     };
 
-    cao.on_show_white_card = function(idx, desc) {
+    swst.on_show_white_card = function(idx, desc) {
         var identifier = 'white-card-' + idx;
         var content = '<button name="' + idx + '" class="read-only card" id="' + identifier + '">' + desc + '</button>';
         $white_cards.append(content);
@@ -91,7 +91,7 @@ $(document).ready(function() {
             var $this = $(this);
             if (!$white_cards.attr('disabled')) {
                 if ($this.hasClass("active")) {
-                    cao.get_white_card_event($this.prop('name'))();
+                    swst.get_white_card_event($this.prop('name'))();
                 } else {
                     $white_cards.find("> .card").removeClass("active");
                     $this.addClass("active");
@@ -100,7 +100,7 @@ $(document).ready(function() {
         });
     };
 
-    cao.on_show_played_card = function(idx, desc) {
+    swst.on_show_played_card = function(idx, desc) {
         var identifier = 'played-card-' + idx;
         var content = '<button name="' + idx + '" class="read-only card" id="' + identifier + '">' + desc + '</button>';
         $played_cards.append(content);
@@ -109,7 +109,7 @@ $(document).ready(function() {
             var $this = $(this);
             if (!$played_cards.attr('disabled')) {
                 if ($this.hasClass("active")) {
-                    cao.get_played_card_event($this.prop('name'))();
+                    swst.get_played_card_event($this.prop('name'))();
                 } else {
                     $played_cards.find("> .card").removeClass("active");
                     $this.addClass("active");
@@ -118,11 +118,11 @@ $(document).ready(function() {
         });
     };
 
-    cao.on_show_black_card = function(desc) {
+    swst.on_show_black_card = function(desc) {
         $('#black-card').html(desc);
     };
 
-    cao.on_play_white_card_ok = function(idx) {
+    swst.on_play_white_card_ok = function(idx) {
         $white_cards.attr('disabled', true);
         $white_cards.addClass('read-only');
 
@@ -131,25 +131,25 @@ $(document).ready(function() {
         $('#white-card-' + idx).remove();
     };
 
-    cao.on_updated_score = function(score) {
+    swst.on_updated_score = function(score) {
         $score_value.text(score);
     };
 
-    cao.on_change_nbr_played_cards = function(nbr) {
+    swst.on_change_nbr_played_cards = function(nbr) {
         $played_card_number.text(nbr);
     };
 
-    cao.on_collect_cards_ok = function() {
+    swst.on_collect_cards_ok = function() {
         $white_cards.hide();
         $played_cards.show();
     };
 
-    cao.on_designate_card_ok = function(idx) {
+    swst.on_designate_card_ok = function(idx) {
         $played_cards.empty();
 
         $played_cards.hide();
         $white_cards.show();
     };
 
-    cao.run();
+    swst.run();
 });

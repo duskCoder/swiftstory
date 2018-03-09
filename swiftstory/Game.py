@@ -1,7 +1,7 @@
-from CAO.Player import Player
-from CAO.Board import Board
+from swiftstory.Player import Player
+from swiftstory.Board import Board
 
-from CAO.Status import cao_error, cao_success
+from swiftstory.Status import error, success
 
 import json
 
@@ -28,7 +28,7 @@ class Game():
 
     def try_join(self, client):
         if len(self.players) >= 10:
-            return cao_error('too many players in this game')
+            return error('too many players in this game')
 
         cards = []
 
@@ -36,7 +36,7 @@ class Game():
             for i in range(10):
                 cards.append(self.board.pick_white_card())
         except IndexError:
-            return cao_error('no enough white cards for player')
+            return error('no enough white cards for player')
 
         player = Player(client)
 
@@ -61,13 +61,13 @@ class Game():
         else:
             state = 'waiting_designation'
 
-        return cao_success({'cards': cards, 'game_state': state})
+        return success({'cards': cards, 'game_state': state})
 
 
     def try_become_judge(self, player):
         if self.state is not self.WAITING_NEW_JUDGE:
             # TODO what if the judge has quit ?
-            return cao_error('Someone is judge already')
+            return error('Someone is judge already')
 
         self.judge = player
         self.board.reveal_black_card()
@@ -83,17 +83,17 @@ class Game():
 
     def try_play_card(self, player, card_id):
         if self.state is not self.WAITING_COLLECTION:
-            return cao_error('Who asked you to play now ?!')
+            return error('Who asked you to play now ?!')
 
         if self.judge is player:
-            return cao_error('You\'re the judge, you silly')
+            return error('You\'re the judge, you silly')
         elif player.get_has_played():
-            return cao_error('You already played, you dumb ass')
+            return error('You already played, you dumb ass')
 
         try:
             card = player.pop_card(card_id)
         except IndexError:
-            return cao_error('Invalid card id')
+            return error('Invalid card id')
 
         player.set_has_played()
 
@@ -101,15 +101,15 @@ class Game():
 
         self.judge.send_notification({'op': 'card_played'})
 
-        return cao_success({'card_id': card_id})
+        return success({'card_id': card_id})
 
 
     def try_collect_cards(self, player):
         if self.state is not self.WAITING_COLLECTION:
-            return cao_error('Do you think it\'s the moment for colletion !?')
+            return error('Do you think it\'s the moment for colletion !?')
 
         if self.judge is not player:
-            return cao_error('You\'re not the judge, you fool!')
+            return error('You\'re not the judge, you fool!')
 
         self.board.shuffle_played_cards()
 
@@ -125,13 +125,13 @@ class Game():
 
     def try_designate_card(self, player, card_id):
         if self.state is not self.WAITING_DESIGNATION:
-            return cao_error('Not now, moron !')
+            return error('Not now, moron !')
 
         if self.judge is not player:
-            return cao_error('Who do you think you are !?')
+            return error('Who do you think you are !?')
 
         if card_id is None and len(self.board.played_cards) > 0:
-            return cao_error('There are cards on the board, pick one !')
+            return error('There are cards on the board, pick one !')
 
         if card_id is not None or len(self.board.played_cards) > 0:
             # if there are cards on the board
@@ -139,7 +139,7 @@ class Game():
             try:
                 card, winner = self.board.played_cards[card_id]
             except IndexError:
-                return cao_error('Invalid card')
+                return error('Invalid card')
 
             winner.inc_score()
 
@@ -173,7 +173,7 @@ class Game():
 
         self.state = self.WAITING_NEW_JUDGE
 
-        return cao_success(None)
+        return success(None)
 
     def __view_player_cards(self, player):
         cards = []
@@ -184,26 +184,26 @@ class Game():
         return cards
 
     def try_view_player_cards(self, player):
-        return cao_success(self.__view_player_cards(player))
+        return success(self.__view_player_cards(player))
 
     def try_view_played_cards(self, player):
         if self.state is not self.WAITING_DESIGNATION:
-            return cao_error('Not now, moron !')
+            return error('Not now, moron !')
 
         cards = []
 
         for card, unused in self.board.played_cards:
             cards.append(self.white_desc[card])
 
-        return cao_success(cards)
+        return success(cards)
 
     def try_view_black_card(self, player):
         card = self.board.current_black_card
 
         if card is not None:
-            return cao_success(self.black_desc[card])
+            return success(self.black_desc[card])
 
-        return cao_error('The black card has not been revealed yet')
+        return error('The black card has not been revealed yet')
 
     def disconnect(self, player):
         player.client = None

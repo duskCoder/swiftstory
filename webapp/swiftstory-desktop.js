@@ -2,28 +2,28 @@ $(document).ready(function() {
     $('#btn_join').click(function() {
         var game_name = prompt('Name of the game');
 
-        cao.join_game(game_name);
+        swst.join_game(game_name);
     });
 
     $('#btn_pick_black').click(function() {
-        cao.pick_black_card();
+        swst.pick_black_card();
     });
 
     $('#btn_collect').click(function() {
-        cao.collect_cards();
+        swst.collect_cards();
     });
 
-    cao.on_socket_open = function() {
+    swst.on_socket_open = function() {
         $('#btn_join').show();
     };
 
-    cao.on_join_game_ok = function(state) {
+    swst.on_join_game_ok = function(state) {
         $('#btn_join').hide();
         $('#btn_pick_black').show();
         $('#white_cards').show();
     };
 
-    cao.on_show_white_card = function(idx, desc) {
+    swst.on_show_white_card = function(idx, desc) {
         identifier = 'white_card_' + idx;
         content = '<li id="' + identifier + '">' + desc + '</li>';
 
@@ -32,7 +32,7 @@ $(document).ready(function() {
         $('#' + identifier).dblclick(this.gen_callback_white_card(idx));
     };
 
-    cao.on_show_played_card = function(idx, desc) {
+    swst.on_show_played_card = function(idx, desc) {
         identifier = 'played_card_' + idx;
 
         content = '<li id="' + identifier + '">' + desc + '</li>';
@@ -43,23 +43,23 @@ $(document).ready(function() {
     };
 
 
-    cao.on_pick_black_card_ok = function() {
+    swst.on_pick_black_card_ok = function() {
         $('#btn_collect').show();
         $('#btn_pick_black').hide();
     };
 
-    cao.on_show_black_card = function(desc) {
+    swst.on_show_black_card = function(desc) {
         $('#black_card').show();
         $('#black_card').html(desc);
     };
 
 
-    cao.on_play_white_card_ok = function(idx) {
+    swst.on_play_white_card_ok = function(idx) {
         identifier = 'white_card_' + idx;
         $('#' + identifier).remove();
     };
 
-    cao.on_designate_card_ok = function() {
+    swst.on_designate_card_ok = function() {
         $('#played_cards').empty();
         $('#played_cards').hide();
         $('#black_card').hide();
@@ -67,22 +67,22 @@ $(document).ready(function() {
         $('#btn_pick_black').show();
     };
 
-    cao.on_collect_cards_ok = function() {
+    swst.on_collect_cards_ok = function() {
         $('#btn_collect').hide();
         $('#played_cards').show();
     };
 
-    cao.on_judge_designed = function() {
+    swst.on_judge_designed = function() {
         $('#btn_pick_black').hide();
     };
 
-    cao.on_judge_needed = function() {
+    swst.on_judge_needed = function() {
         $('#btn_pick_black').show();
     };
 
-    cao.on_updated_score = function(score) {
+    swst.on_updated_score = function(score) {
         console.log('new score: ' + score);
     };
 
-    cao.run();
+    swst.run();
 });

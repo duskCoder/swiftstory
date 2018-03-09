@@ -15,7 +15,7 @@ Execution
 
 Start the python server (it will listen to any connection on port 1236)
 
-    $ chdir / && cao-server &
+    $ chdir / && swiftstoryd &
 
 Installation of the web application
 ===================================

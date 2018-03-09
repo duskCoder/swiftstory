@@ -1,11 +1,11 @@
 from distutils.core import setup
 
 packages = [
-        'CAO',
+        'SwiftStory',
         ]
 
 prefix = '/'
-share_dir = 'usr/share/cao/'
+share_dir = 'usr/share/swiftstory/'
 
 data_files = list()
 
@@ -24,11 +24,11 @@ for n in os.walk('usr'):
 print(data_files)
 
 scripts = [
-        'cao-server',
+        'swiftstoryd',
         ]
 
 setup(
-        name='cao',
+        name='swiftstory',
         version='0.1',
         packages=packages,
         data_files=data_files,

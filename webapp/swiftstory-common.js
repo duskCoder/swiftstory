@@ -1,4 +1,4 @@
-var CAO = function() {
+var SwiftStory = function() {
     this.on_socket_open = function() { /* to override */ };
     this.on_socket_close = function() { /* to override */ };
     this.on_socket_error = function(evt) { /* to override */};
@@ -341,8 +341,8 @@ var CAO = function() {
     };
 };
 
-var cao;
+var swst;
 
 $(document).ready(function() {
-    cao = new CAO();
+    swst = new SwiftStory();
 });
