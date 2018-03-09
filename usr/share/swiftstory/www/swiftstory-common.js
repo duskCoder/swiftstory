@@ -214,7 +214,13 @@ var SwiftStory = function() {
     /* }}} */
 
     this.run = function() {
-        ws = new WebSocket('ws://' + document.location.hostname + ':1236');
+        /* Use websockets over TLS only when the page is served over TLS. */
+        var scheme = (document.location.protocol === 'https:') ? 'wss' : 'ws';
+
+        /* NOTE: We need to access the exact url (no redirection allowed). */
+        var uri = scheme + '://' + document.location.host + '/ws/';
+
+        ws = new WebSocket(uri);
 
         ws.onopen = function() {
             console.log('connection established');
