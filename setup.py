@@ -30,6 +30,8 @@ scripts = [
 setup(
         name='swiftstory',
         version='0.1',
+        author='Olivier Gayot',
+        author_email='olivier.gayot@sigexec.com',
         packages=packages,
         data_files=data_files,
         scripts=scripts,
