@@ -28,7 +28,7 @@ Alternatively, if your version of php implements this, you can use this command
 to run a simple webserver (this method is not recommended in a production
 environment).
 
-    $ php -S "<listen_address>:<port>" -t www/
+    $ php -S "<listen_address>:<port>" -t usr/share/swiftstory/www/
 
 Replace <listen_address> and <port> by the values you prefer.
 
