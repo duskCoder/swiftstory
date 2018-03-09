@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 packages = [
-        'SwiftStory',
+        'swiftstory',
         ]
 
 prefix = '/'
