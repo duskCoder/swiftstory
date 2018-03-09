@@ -20,18 +20,18 @@ Start the python server (it will listen to any connection on port 1236)
 Installation of the web application
 ===================================
 
-Configure your webserver to server the webapp/ directory (refer to the
+Configure your webserver to server the www/ directory (refer to the
 documentation of your prefered webserver for that) or copy the content of the
-webapp/ directory in a directory already served by your webserver.
+www/ directory in a directory already served by your webserver.
 
 Alternatively, if your version of php implements this, you can use this command
 to run a simple webserver (this method is not recommended in a production
 environment).
 
-    $ php -S "<listen_address>:<port>" -t webapp/
+    $ php -S "<listen_address>:<port>" -t www/
 
 Replace <listen_address> and <port> by the values you prefer.
 
 example:
 
-    $ php -S 0.0.0.0:8080 -t webapp/
+    $ php -S 0.0.0.0:8080 -t www/
