@@ -1,0 +1,64 @@
+#!/bin/bash
+#
+### BEGIN INIT INFO
+# Provides:             swiftstory
+# Required-Start:       $remote_fs
+# Required-Stop:        $remote_fs
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 1 6
+# Short-Description:    starts and Stop SwiftStory daemon
+### END INIT INFO
+
+set -e
+
+# /etc/init.d/swiftstory: start and stop SwiftStory daemon
+
+NAME=SwiftStory
+DESC='SwiftStory game'
+DAEMON=/usr/bin/swiftstoryd
+PIDFILE=/var/run/swiftstoryd.pid
+USER=swiftstory
+
+test -x $DAEMON || exit 0
+
+. /lib/init/vars.sh
+. /lib/lsb/init-functions
+
+[ -r /etc/default/swiftstory ] && . /etc/default/swiftstory
+
+export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+
+case "$1" in
+    start)
+        log_daemon_msg "Starting $DESC" "$NAME" || true
+        if start-stop-daemon --start --quiet -b --oknodo --pidfile $PIDFILE --make-pidfile --chuid $USER --exec $DAEMON -- $OPTS; then
+            log_end_msg 0 || true
+        else
+            log_end_msg 1 || true
+        fi
+        ;;
+    stop)
+        log_daemon_msg "Stopping $DESC" "$NAME" || true
+        if start-stop-daemon --stop --quiet --oknodo --pidfile $PIDFILE --remove-pidfile; then
+            log_end_msg 0 || true
+        else
+            log_end_msg 1 || true
+        fi
+        ;;
+    reload|force-reload)
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    try-restart)
+        ;;
+    status)
+        status_of_proc -p $PID "$DAEMON" "$NAME" && exit 0 || exit $?
+        ;;
+    *)
+        log_action_msg "Usage /etc/init.d/swiftstory {start|stop|reload|force-reload|restart|try_restart|status}" || true
+        exit 1
+esac
+
+exit 0
